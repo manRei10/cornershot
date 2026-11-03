@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CornerShot — macOS スクリーンショットドロワー</title>
-  <meta name="description" content="マウスを画面右上へ動かすと直近のスクリーンショットが開きます。文字検索と黒塗りマスクに対応。">
+  <title>CornerShot — macOS</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
@@ -21,7 +20,6 @@
 </head>
 <body class="selection:bg-white selection:text-black">
 
-  <!-- Header -->
   <header class="max-w-3xl mx-auto px-6 py-7 flex items-center justify-between text-xs border-b border-white/[0.08]">
     <div class="flex items-center gap-2.5">
       <span class="font-semibold text-sm text-[#ECECEC]">CornerShot</span>
@@ -37,106 +35,112 @@
     </div>
   </header>
 
-  <main class="max-w-3xl mx-auto px-6 pt-16 pb-24">
+  <main class="max-w-3xl mx-auto px-6 pt-14 pb-24">
 
-    <!-- Lead -->
-    <section class="mb-12">
-      <h1 class="text-xl sm:text-2xl font-semibold tracking-tight text-[#ECECEC] mb-3">
-        マウスを右上へ動かすと、直近のスクリーンショットが並ぶ。
-      </h1>
-      <p class="text-sm text-[#86868B] leading-relaxed mb-7">
-        画面の右上端にカーソルを合わせるか <code class="text-[#ECECEC] mono">⌘⇧S</code> を押すとドロワーが開きます。画像内の文字で検索し、ドラッグで黒塗りを入れてそのまま貼り付けられます。
-      </p>
+    <section class="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+      <div>
+        <h1 class="text-lg sm:text-xl font-semibold tracking-tight text-[#ECECEC] mb-1.5">
+          右上ホットコーナー（↗）で開くスクリーンショット一覧。
+        </h1>
+        <p class="text-xs text-[#86868B]">
+          画像内テキスト検索・ドラッグ黒塗り・<code class="text-[#ECECEC] mono">↵</code> 貼り付け。
+        </p>
+      </div>
 
-      <div class="flex flex-wrap items-center gap-3 text-xs">
-        <a href="https://github.com/manRei10/cornershot/releases/download/v1.0.0/CornerShot-1.0.0.dmg" class="px-4 py-2.5 rounded-lg bg-[#ECECEC] text-[#141416] font-medium hover:bg-white transition-colors">
-          Download for macOS (.dmg)
+      <div class="flex items-center gap-2.5 text-xs shrink-0">
+        <a href="https://github.com/manRei10/cornershot/releases/download/v1.0.0/CornerShot-1.0.0.dmg" class="px-4 py-2 rounded-lg bg-[#ECECEC] text-[#141416] font-medium hover:bg-white transition-colors">
+          Download .dmg
         </a>
-        <a href="https://buy.polar.sh/polar_cl_cnKZ7opusRVzLV1ybbHxwRiDP5OHHD4hbjAlc1y6WCw" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-lg border border-white/[0.14] text-[#ECECEC] hover:bg-white/[0.06] transition-colors mono">
-          Pro License $14
+        <a href="https://buy.polar.sh/polar_cl_cnKZ7opusRVzLV1ybbHxwRiDP5OHHD4hbjAlc1y6WCw" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-lg border border-white/[0.14] text-[#ECECEC] hover:bg-white/[0.06] transition-colors mono">
+          Pro $14
         </a>
       </div>
     </section>
 
-    <!-- App Window Specimen -->
-    <section class="mb-16">
+    <!-- Visual Specimen matching CornerDrawer -->
+    <section>
       <div class="rounded-xl bg-[#141416] border border-white/[0.10] shadow-2xl overflow-hidden">
-        <!-- Search bar -->
-        <div class="h-12 px-4 border-b border-white/[0.08] flex items-center justify-between">
-          <span class="text-[13px] text-[#86868B]">Search text in screenshots...</span>
-          <span class="text-[11px] mono text-[#86868B]">3</span>
-        </div>
-
-        <!-- 2-pane body -->
-        <div class="grid grid-cols-1 sm:grid-cols-12 min-h-[280px]">
-          <div class="sm:col-span-4 border-b sm:border-b-0 sm:border-r border-white/[0.08] p-1.5 space-y-1">
-            <div onclick="selectShot(0)" id="shot-0" class="flex items-center gap-2.5 p-1.5 rounded-lg bg-white/[0.11] text-[#ECECEC] cursor-pointer">
-              <div class="w-12 h-8 rounded bg-[#09090B] border border-white/[0.08] shrink-0"></div>
-              <div class="min-w-0 flex-1">
-                <div class="text-[12px] text-[#ECECEC] truncate">STRIPE_SECRET=...</div>
-                <div class="text-[10.5px] mono text-[#86868B]">1m</div>
-              </div>
-            </div>
-            <div onclick="selectShot(1)" id="shot-1" class="flex items-center gap-2.5 p-1.5 rounded-lg text-[#86868B] hover:text-[#ECECEC] cursor-pointer">
-              <div class="w-12 h-8 rounded bg-[#09090B] border border-white/[0.08] shrink-0"></div>
-              <div class="min-w-0 flex-1">
-                <div class="text-[12px] text-[#ECECEC] truncate">$ cargo build --release</div>
-                <div class="text-[10.5px] mono text-[#86868B]">14m</div>
-              </div>
-            </div>
-            <div onclick="selectShot(2)" id="shot-2" class="flex items-center gap-2.5 p-1.5 rounded-lg text-[#86868B] hover:text-[#ECECEC] cursor-pointer">
-              <div class="w-12 h-8 rounded bg-[#09090B] border border-white/[0.08] shrink-0"></div>
-              <div class="min-w-0 flex-1">
-                <div class="text-[12px] text-[#ECECEC] truncate">Background: #141416</div>
-                <div class="text-[10.5px] mono text-[#86868B]">48m</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="sm:col-span-8 p-4 bg-[#101012] flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between pb-2.5 border-b border-white/[0.07] mb-3 text-[11px] mono">
-                <span class="text-[#ECECEC]">Image</span>
-                <span id="shot-dim" class="text-[#86868B]">2880×1800</span>
-              </div>
-              <div class="rounded-lg border border-white/[0.08] bg-[#09090B] p-4">
-                <pre id="shot-body" class="text-[12px] leading-relaxed mono text-[#ECECEC] whitespace-pre-wrap break-all">STRIPE_SECRET=██████████████████
-POLAR_ORG_ID=83da2985-1e90-48d1-8999
-WEBHOOK_URL=https://api.manreilab.com/v1/hooks
-HTTP 200 OK</pre>
-              </div>
-            </div>
+        <!-- Top search -->
+        <div class="h-11 px-4 border-b border-white/[0.08] flex items-center justify-between">
+          <span class="text-[13px] text-[#86868B]">Search...</span>
+          <div class="flex items-center gap-3 text-[11px] mono text-[#86868B]">
+            <span>OCR</span>
+            <span>⌘,</span>
           </div>
         </div>
 
-        <!-- Bottom bar -->
+        <!-- Filmstrip + Full-Bleed Canvas -->
+        <div class="flex flex-col sm:flex-row min-h-[380px]">
+          <div class="sm:w-[224px] border-b sm:border-b-0 sm:border-r border-white/[0.08] p-2.5 space-y-2.5 bg-[#121214] shrink-0">
+            <!-- Thumb 1 -->
+            <div onclick="selectShot(0)" id="thumb-0" class="relative aspect-[16/10] w-full rounded-lg overflow-hidden cursor-pointer ring-2 ring-[#ECECEC]">
+              <svg viewBox="0 0 640 400" class="w-full h-full bg-[#101013]">
+                <rect width="640" height="34" fill="#18181C"/>
+                <circle cx="18" cy="17" r="5" fill="#3F3F46"/><circle cx="34" cy="17" r="5" fill="#3F3F46"/><circle cx="50" cy="17" r="5" fill="#3F3F46"/>
+                <text x="28" y="96" fill="#ECECEC" font-family="SF Mono, monospace" font-size="22">STRIPE_SECRET=sk_live_...</text>
+                <text x="28" y="142" fill="#86868B" font-family="SF Mono, monospace" font-size="22">POLAR_ORG_ID=83da2985</text>
+                <text x="28" y="188" fill="#86868B" font-family="SF Mono, monospace" font-size="22">STATUS=200 OK</text>
+              </svg>
+              <span class="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded bg-[#141416]/85 text-[10px] mono text-[#ECECEC] leading-none">1</span>
+              <span class="absolute bottom-1.5 right-1.5 px-1.5 py-0.5 rounded bg-[#141416]/85 text-[10px] mono text-[#86868B] leading-none">1m</span>
+            </div>
+
+            <!-- Thumb 2 -->
+            <div onclick="selectShot(1)" id="thumb-1" class="relative aspect-[16/10] w-full rounded-lg overflow-hidden cursor-pointer opacity-65 hover:opacity-100 ring-1 ring-white/[0.08]">
+              <svg viewBox="0 0 640 400" class="w-full h-full bg-[#0B0B0D]">
+                <rect width="640" height="34" fill="#16161A"/>
+                <text x="28" y="96" fill="#ECECEC" font-family="SF Mono, monospace" font-size="22">$ cargo build --release</text>
+                <text x="28" y="142" fill="#86868B" font-family="SF Mono, monospace" font-size="22">Compiling cornershot v1.0</text>
+                <text x="28" y="188" fill="#ECECEC" font-family="SF Mono, monospace" font-size="22">Finished in 4.18s</text>
+              </svg>
+              <span class="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded bg-[#141416]/85 text-[10px] mono text-[#ECECEC] leading-none">2</span>
+              <span class="absolute bottom-1.5 right-1.5 px-1.5 py-0.5 rounded bg-[#141416]/85 text-[10px] mono text-[#86868B] leading-none">14m</span>
+            </div>
+
+            <!-- Thumb 3 -->
+            <div onclick="selectShot(2)" id="thumb-2" class="relative aspect-[16/10] w-full rounded-lg overflow-hidden cursor-pointer opacity-65 hover:opacity-100 ring-1 ring-white/[0.08]">
+              <svg viewBox="0 0 640 400" class="w-full h-full bg="#141416">
+                <rect x="36" y="36" width="240" height="328" rx="10" fill="#1C1C1F" stroke="#2D2D32"/>
+                <rect x="300" y="36" width="304" height="154" rx="10" fill="#1C1C1F" stroke="#2D2D32"/>
+                <rect x="300" y="210" width="304" height="154" rx="10" fill="#1C1C1F" stroke="#2D2D32"/>
+                <text x="64" y="100" fill="#ECECEC" font-family="sans-serif" font-size="28" font-weight="600">#141416</text>
+                <text x="328" y="100" fill="#ECECEC" font-family="sans-serif" font-size="28" font-weight="600">#ECECEC</text>
+              </svg>
+              <span class="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded bg-[#141416]/85 text-[10px] mono text-[#ECECEC] leading-none">3</span>
+              <span class="absolute bottom-1.5 right-1.5 px-1.5 py-0.5 rounded bg-[#141416]/85 text-[10px] mono text-[#86868B] leading-none">48m</span>
+            </div>
+          </div>
+
+          <!-- Right Full-Bleed Canvas -->
+          <div class="flex-1 p-3 bg-[#0C0C0E] flex flex-col">
+            <div id="stage-0" class="flex-1 rounded-lg border border-white/[0.08] bg-[#101013] overflow-hidden flex items-center justify-center">
+              <svg viewBox="0 0 640 400" class="w-full h-full">
+                <rect width="640" height="34" fill="#18181C"/>
+                <circle cx="18" cy="17" r="5" fill="#3F3F46"/><circle cx="34" cy="17" r="5" fill="#3F3F46"/><circle cx="50" cy="17" r="5" fill="#3F3F46"/>
+                <text x="74" y="21" fill="#86868B" font-family="SF Mono, monospace" font-size="12">.env.production</text>
+                <text x="28" y="82" fill="#86868B" font-family="SF Mono, monospace" font-size="14">1</text>
+                <text x="58" y="82" fill="#ECECEC" font-family="SF Mono, monospace" font-size="15">STRIPE_SECRET=</text>
+                <rect x="184" y="64" width="224" height="24" rx="3" fill="#1D1D1F" stroke="rgba(255,255,255,0.28)"/>
+                <text x="28" y="118" fill="#86868B" font-family="SF Mono, monospace" font-size="14">2</text>
+                <text x="58" y="118" fill="#A1A1AA" font-family="SF Mono, monospace" font-size="15">POLAR_ORG_ID=83da2985-1e90-48d1-8999</text>
+                <text x="28" y="154" fill="#86868B" font-family="SF Mono, monospace" font-size="14">3</text>
+                <text x="58" y="154" fill="#A1A1AA" font-family="SF Mono, monospace" font-size="15">WEBHOOK=https://api.manreilab.com/v1/hooks</text>
+                <text x="28" y="190" fill="#86868B" font-family="SF Mono, monospace" font-size="14">4</text>
+                <text x="58" y="190" fill="#ECECEC" font-family="SF Mono, monospace" font-size="15">STATUS=200 OK</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Minimal Footer -->
         <div class="h-8 px-4 border-t border-white/[0.08] bg-[#141416] flex items-center justify-between text-[11px] text-[#86868B] mono">
-          <span>Drag image to redact</span>
+          <span>2880×1800</span>
           <div class="flex items-center gap-4">
-            <span>Paste Text <strong class="text-[#ECECEC] font-normal">⌥↵</strong></span>
-            <span>Paste Image <strong class="text-[#ECECEC] font-normal">↵</strong></span>
+            <span>⌘O</span>
+            <span>Text <strong class="text-[#ECECEC] font-normal">⌥↵</strong></span>
+            <span>Paste <strong class="text-[#ECECEC] font-normal">↵</strong></span>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Specification List -->
-    <section class="border-t border-white/[0.08] divide-y divide-white/[0.08] text-xs">
-      <div class="py-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
-        <span class="text-[#86868B]">起動方法</span>
-        <span class="sm:col-span-2 text-[#ECECEC]">画面右上（または左上）へのマウス移動、または <code class="mono">⌘⇧S</code>。</span>
-      </div>
-      <div class="py-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
-        <span class="text-[#86868B]">対象フォルダ</span>
-        <span class="sm:col-span-2 text-[#ECECEC]">macOS のスクリーンショット保存先設定（<code class="mono">com.apple.screencapture location</code>）、<code class="mono">~/Pictures/Screenshots</code>、<code class="mono">~/Desktop</code> を自動で読み込みます。</span>
-      </div>
-      <div class="py-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
-        <span class="text-[#86868B]">文字検索と黒塗り</span>
-        <span class="sm:col-span-2 text-[#ECECEC]">Apple Vision による画像内テキスト検索と、プレビュー上でのドラッグ黒塗りに対応しています。</span>
-      </div>
-      <div class="py-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
-        <span class="text-[#86868B]">ライセンス</span>
-        <span class="sm:col-span-2 text-[#ECECEC]">無料版は直近 12 件まで表示。Pro ライセンス（$14 買い切り）で制限が解除されます。</span>
       </div>
     </section>
 
@@ -147,32 +151,5 @@ HTTP 200 OK</pre>
     <a href="mailto:manreilab@proton.me" class="hover:text-[#ECECEC] mono">manreilab@proton.me</a>
   </footer>
 
-  <script>
-    const shots = [
-      {
-        dim: '2880×1800',
-        body: 'STRIPE_SECRET=██████████████████\nPOLAR_ORG_ID=83da2985-1e90-48d1-8999\nWEBHOOK_URL=https://api.manreilab.com/v1/hooks\nHTTP 200 OK'
-      },
-      {
-        dim: '2560×1600',
-        body: '$ cargo build --release\nCompiling cornershot v1.0.0\nFinished release target in 4.18s'
-      },
-      {
-        dim: '1920×1200',
-        body: 'Background: #141416\nPrimary: #ECECEC\nSecondary: #86868B'
-      }
-    ];
-
-    function selectShot(idx) {
-      for (let i = 0; i < 3; i++) {
-        const el = document.getElementById('shot-' + i);
-        el.className = i === idx
-          ? 'flex items-center gap-2.5 p-1.5 rounded-lg bg-white/[0.11] text-[#ECECEC] cursor-pointer'
-          : 'flex items-center gap-2.5 p-1.5 rounded-lg text-[#86868B] hover:text-[#ECECEC] cursor-pointer';
-      }
-      document.getElementById('shot-dim').innerText = shots[idx].dim;
-      document.getElementById('shot-body').innerText = shots[idx].body;
-    }
-  </script>
 </body>
 </html>
