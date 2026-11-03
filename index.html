@@ -1,322 +1,177 @@
 <!DOCTYPE html>
-<html lang="ja" class="dark scroll-smooth">
+<html lang="ja" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CornerShot by manRei Lab — Top-Right Hot Corner Screenshot Drawer & Vision OCR for macOS</title>
-  <meta name="description" content="Move your cursor to the top-right corner of macOS to summon your recent screenshots, search inside images with Apple Vision OCR, and redact sensitive keys in 1 second. One-time $14 purchase.">
+  <title>CornerShot — macOS スクリーンショットドロワー</title>
+  <meta name="description" content="マウスを画面右上へ動かすと直近のスクリーンショットが開きます。文字検索と黒塗りマスクに対応。">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Hiragino Sans", sans-serif;
       background-color: #09090B;
       color: #ECECEC;
       font-variant-numeric: tabular-nums;
+      -webkit-font-smoothing: antialiased;
     }
     .mono {
-      font-family: "SF Mono", "JetBrains Mono", Menlo, monospace;
-    }
-    .surface-card {
-      background: #121215;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: "SF Mono", Menlo, monospace;
     }
   </style>
 </head>
 <body class="selection:bg-white selection:text-black">
 
-  <!-- Navigation -->
-  <nav class="fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 py-3.5 flex items-center justify-between border-b border-white/[0.07] bg-[#09090B]/90 backdrop-blur-xl">
-    <div class="flex items-center gap-2 whitespace-nowrap">
-      <div class="w-6 h-6 rounded bg-white/[0.08] border border-white/15 flex items-center justify-center text-xs mono text-white">
-        ↗
+  <!-- Header -->
+  <header class="max-w-3xl mx-auto px-6 py-7 flex items-center justify-between text-xs border-b border-white/[0.08]">
+    <div class="flex items-center gap-2.5">
+      <span class="font-semibold text-sm text-[#ECECEC]">CornerShot</span>
+      <span class="text-[#86868B] mono">macOS</span>
+    </div>
+    <div class="flex items-center gap-5">
+      <a href="https://github.com/manRei10/cornershot/releases/download/v1.0.0/CornerShot-1.0.0.dmg" class="text-[#86868B] hover:text-[#ECECEC] transition-colors">
+        Download .dmg
+      </a>
+      <a href="https://buy.polar.sh/polar_cl_cnKZ7opusRVzLV1ybbHxwRiDP5OHHD4hbjAlc1y6WCw" target="_blank" rel="noopener noreferrer" class="text-[#ECECEC] hover:underline font-medium mono">
+        Buy $14
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-6 pt-16 pb-24">
+
+    <!-- Lead -->
+    <section class="mb-12">
+      <h1 class="text-xl sm:text-2xl font-semibold tracking-tight text-[#ECECEC] mb-3">
+        マウスを右上へ動かすと、直近のスクリーンショットが並ぶ。
+      </h1>
+      <p class="text-sm text-[#86868B] leading-relaxed mb-7">
+        画面の右上端にカーソルを合わせるか <code class="text-[#ECECEC] mono">⌘⇧S</code> を押すとドロワーが開きます。画像内の文字で検索し、ドラッグで黒塗りを入れてそのまま貼り付けられます。
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3 text-xs">
+        <a href="https://github.com/manRei10/cornershot/releases/download/v1.0.0/CornerShot-1.0.0.dmg" class="px-4 py-2.5 rounded-lg bg-[#ECECEC] text-[#141416] font-medium hover:bg-white transition-colors">
+          Download for macOS (.dmg)
+        </a>
+        <a href="https://buy.polar.sh/polar_cl_cnKZ7opusRVzLV1ybbHxwRiDP5OHHD4hbjAlc1y6WCw" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-lg border border-white/[0.14] text-[#ECECEC] hover:bg-white/[0.06] transition-colors mono">
+          Pro License $14
+        </a>
       </div>
-      <span class="font-semibold text-sm tracking-tight text-white">CornerShot</span>
-      <span class="hidden sm:inline text-[11px] text-[#86868B]">by manRei Lab</span>
-      <span class="text-[10px] mono px-2 py-0.5 rounded bg-white/[0.06] text-[#86868B]">v1.0</span>
-    </div>
+    </section>
 
-    <div class="flex items-center gap-3 sm:gap-5 text-xs whitespace-nowrap">
-      <a href="#why" class="hidden sm:inline text-[#86868B] hover:text-white transition-colors">Why CornerShot</a>
-      <a href="#comparison" class="hidden sm:inline text-[#86868B] hover:text-white transition-colors">Comparison</a>
-      <a href="#pricing" class="text-[#86868B] hover:text-white transition-colors">Pricing</a>
-      <a id="nav-buy-link" href="https://buy.polar.sh/polar_cl_cnKZ7opusRVzLV1ybbHxwRiDP5OHHD4hbjAlc1y6WCw" target="_blank" rel="noopener noreferrer" class="px-3 sm:px-3.5 py-1.5 rounded-lg bg-[#ECECEC] text-[#141416] hover:bg-white font-semibold transition-all">
-        Buy ($14) →
-      </a>
-    </div>
-  </nav>
-
-  <!-- Hero Section: One Thing Leads -->
-  <section class="pt-28 pb-16 px-6 max-w-5xl mx-auto text-center">
-    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 mb-6 text-[11px] text-[#86868B] mono">
-      <span>Top-Right Hot Corner (↗) · Apple Vision OCR · 1-Click Sumi Redaction · $14 One-Time</span>
-    </div>
-
-    <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-[#ECECEC] leading-[1.32] mb-5">
-      マウスを右上へ滑らせるだけ。<br>
-      <span class="text-[#86868B] font-normal">スクショ検索・墨消し・OCR貼付が0.1秒で完結する macOS ドロワー</span>
-    </h1>
-
-    <p class="text-xs sm:text-sm text-[#86868B] max-w-3xl mx-auto mb-8 leading-relaxed">
-      デスクトップに散乱するスクリーンショットを Finder で探す時間はもう不要です。<br>
-      カーソルを画面右上（<code class="text-[#ECECEC] mono">↗</code>）へ移動するだけで直近のスクショが並び、画像内の文字検索（Apple Vision OCR）や機密箇所の墨消し（Sumi Redact）をその場で完了して直前のアプリへ貼り付けられます。
-    </p>
-
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-12">
-      <a id="hero-buy-link" href="https://buy.polar.sh/polar_cl_cnKZ7opusRVzLV1ybbHxwRiDP5OHHD4hbjAlc1y6WCw" target="_blank" rel="noopener noreferrer" class="px-7 py-3 rounded-lg bg-[#ECECEC] hover:bg-white text-[#141416] text-xs font-semibold tracking-tight transition-all">
-        CornerShot Pro を購入 ($14 買い切り) →
-      </a>
-      <a href="https://github.com/manRei10/cornershot/releases/download/v1.0.0/CornerShot-1.0.0.dmg" class="px-6 py-3 rounded-lg bg-white/[0.08] hover:bg-white/[0.15] text-[#ECECEC] text-xs font-semibold border border-white/15 transition-all">
-        無料体験版 (.dmg) をダウンロード
-      </a>
-    </div>
-
-    <!-- Interactive Replica of CornerShot Drawer -->
-    <div class="max-w-[664px] mx-auto rounded-xl bg-[#141416] border border-white/[0.14] shadow-2xl overflow-hidden text-left">
-      <div class="h-10 px-3.5 border-b border-white/[0.08] bg-[#18181B] flex items-center justify-between text-xs">
-        <span class="text-[#86868B]">Search screenshots by Vision OCR text or filename...</span>
-        <div class="flex gap-1.5 text-[10px] mono text-[#86868B]">
-          <span class="px-2 py-0.5 rounded bg-white/[0.06] border border-white/[0.08]">↗ Top-Right</span>
-          <span class="px-2 py-0.5 rounded border border-white/10">Pinned</span>
-          <span class="px-2 py-0.5 rounded border border-white/10">⌘,</span>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-12 min-h-[260px]">
-        <!-- Left 2-col thumbnail grid -->
-        <div class="sm:col-span-5 border-b sm:border-b-0 sm:border-r border-white/[0.08] p-2 grid grid-cols-2 gap-2 content-start bg-[#141416]">
-          <div onclick="selectShot(0)" id="shot-card-0" class="p-1.5 rounded-lg bg-white/[0.12] border border-white/[0.28] cursor-pointer space-y-1">
-            <div class="aspect-[16/10] rounded bg-[#09090B] border border-white/[0.08] p-1.5 flex flex-col justify-between">
-              <span class="text-[9px] mono text-[#ECECEC]">1 · env.prod</span>
-              <span class="text-[8px] mono px-1 py-0.2 rounded bg-white/[0.12] text-[#ECECEC] self-end">1 mask</span>
-            </div>
-            <div class="flex justify-between text-[10px] mono">
-              <span class="truncate text-[#ECECEC]">STRIPE_LIVE...</span>
-              <span class="text-[#86868B]">1m</span>
-            </div>
-          </div>
-
-          <div onclick="selectShot(1)" id="shot-card-1" class="p-1.5 rounded-lg bg-[#101012] border border-white/[0.07] cursor-pointer space-y-1">
-            <div class="aspect-[16/10] rounded bg-[#09090B] border border-white/[0.08] p-1.5 flex flex-col justify-between">
-              <span class="text-[9px] mono text-[#86868B]">2 · Terminal</span>
-              <span class="text-[8px] mono text-[#86868B] self-end">4.18s</span>
-            </div>
-            <div class="flex justify-between text-[10px] mono">
-              <span class="truncate text-[#ECECEC]">cargo build...</span>
-              <span class="text-[#86868B]">14m</span>
-            </div>
-          </div>
-
-          <div onclick="selectShot(2)" id="shot-card-2" class="p-1.5 rounded-lg bg-[#101012] border border-white/[0.07] cursor-pointer space-y-1">
-            <div class="aspect-[16/10] rounded bg-[#09090B] border border-white/[0.08] p-1.5 flex flex-col justify-between">
-              <span class="text-[9px] mono text-[#86868B]">3 · Figma</span>
-              <span class="text-[8px] mono text-[#86868B] self-end">UI Spec</span>
-            </div>
-            <div class="flex justify-between text-[10px] mono">
-              <span class="truncate text-[#ECECEC]">Surface #141416</span>
-              <span class="text-[#86868B]">48m</span>
-            </div>
-          </div>
-
-          <div onclick="selectShot(3)" id="shot-card-3" class="p-1.5 rounded-lg bg-[#101012] border border-white/[0.07] cursor-pointer space-y-1">
-            <div class="aspect-[16/10] rounded bg-[#09090B] border border-white/[0.08] p-1.5 flex flex-col justify-between">
-              <span class="text-[9px] mono text-[#86868B]">4 · Invoice</span>
-              <span class="text-[8px] mono text-[#86868B] self-end">$14.00</span>
-            </div>
-            <div class="flex justify-between text-[10px] mono">
-              <span class="truncate text-[#ECECEC]">Polar.sh MoR</span>
-              <span class="text-[#86868B]">2h</span>
-            </div>
-          </div>
+    <!-- App Window Specimen -->
+    <section class="mb-16">
+      <div class="rounded-xl bg-[#141416] border border-white/[0.10] shadow-2xl overflow-hidden">
+        <!-- Search bar -->
+        <div class="h-12 px-4 border-b border-white/[0.08] flex items-center justify-between">
+          <span class="text-[13px] text-[#86868B]">Search text in screenshots...</span>
+          <span class="text-[11px] mono text-[#86868B]">3</span>
         </div>
 
-        <!-- Right Sumi Redaction & Vision OCR Inspector -->
-        <div class="sm:col-span-7 p-3.5 bg-[#101012] flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between border-b border-white/[0.07] pb-2 mb-2.5 gap-2">
-              <span id="shot-meta" class="text-[10px] mono text-[#86868B] truncate">SUMI REDACT STAGE · DRAG TO BLACKOUT</span>
-              <span class="text-[10px] mono px-2 py-0.5 rounded bg-[#ECECEC] text-[#141416] font-medium shrink-0">Vision OCR (⌥↵)</span>
+        <!-- 2-pane body -->
+        <div class="grid grid-cols-1 sm:grid-cols-12 min-h-[280px]">
+          <div class="sm:col-span-4 border-b sm:border-b-0 sm:border-r border-white/[0.08] p-1.5 space-y-1">
+            <div onclick="selectShot(0)" id="shot-0" class="flex items-center gap-2.5 p-1.5 rounded-lg bg-white/[0.11] text-[#ECECEC] cursor-pointer">
+              <div class="w-12 h-8 rounded bg-[#09090B] border border-white/[0.08] shrink-0"></div>
+              <div class="min-w-0 flex-1">
+                <div class="text-[12px] text-[#ECECEC] truncate">STRIPE_SECRET=...</div>
+                <div class="text-[10.5px] mono text-[#86868B]">1m</div>
+              </div>
             </div>
-            <pre id="shot-inspector" class="text-[11px] mono text-[#ECECEC] whitespace-pre-wrap break-all leading-relaxed bg-[#141416] border border-white/[0.07] rounded-lg p-3">STRIPE_LIVE_SECRET=████████████████████
+            <div onclick="selectShot(1)" id="shot-1" class="flex items-center gap-2.5 p-1.5 rounded-lg text-[#86868B] hover:text-[#ECECEC] cursor-pointer">
+              <div class="w-12 h-8 rounded bg-[#09090B] border border-white/[0.08] shrink-0"></div>
+              <div class="min-w-0 flex-1">
+                <div class="text-[12px] text-[#ECECEC] truncate">$ cargo build --release</div>
+                <div class="text-[10.5px] mono text-[#86868B]">14m</div>
+              </div>
+            </div>
+            <div onclick="selectShot(2)" id="shot-2" class="flex items-center gap-2.5 p-1.5 rounded-lg text-[#86868B] hover:text-[#ECECEC] cursor-pointer">
+              <div class="w-12 h-8 rounded bg-[#09090B] border border-white/[0.08] shrink-0"></div>
+              <div class="min-w-0 flex-1">
+                <div class="text-[12px] text-[#ECECEC] truncate">Background: #141416</div>
+                <div class="text-[10.5px] mono text-[#86868B]">48m</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sm:col-span-8 p-4 bg-[#101012] flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-2.5 border-b border-white/[0.07] mb-3 text-[11px] mono">
+                <span class="text-[#ECECEC]">Image</span>
+                <span id="shot-dim" class="text-[#86868B]">2880×1800</span>
+              </div>
+              <div class="rounded-lg border border-white/[0.08] bg-[#09090B] p-4">
+                <pre id="shot-body" class="text-[12px] leading-relaxed mono text-[#ECECEC] whitespace-pre-wrap break-all">STRIPE_SECRET=██████████████████
 POLAR_ORG_ID=83da2985-1e90-48d1-8999
 WEBHOOK_URL=https://api.manreilab.com/v1/hooks
-STATUS: 200 OK · Verified on macOS Sequoia 15.2</pre>
-          </div>
-          <div class="pt-2.5 border-t border-white/[0.07] flex justify-between items-center text-[10px] mono text-[#86868B]">
-            <span>2880×1800 · 100% On-Device</span>
-            <span class="px-2.5 py-1 rounded bg-[#ECECEC] text-[#141416] font-semibold">Copy Redacted (↵)</span>
+HTTP 200 OK</pre>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="h-7 px-3.5 border-t border-white/[0.07] bg-[#0E0E10] flex items-center justify-between text-[10px] mono text-[#86868B]">
-        <span>↗ Top-Right Corner</span>
-        <span>1–9 Instant Paste</span>
-        <span>Drag = Sumi Redact</span>
-        <span>⌥↵ Paste OCR</span>
-        <span>⌘O Finder</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4 Core Differentiation Pillars -->
-  <section id="why" class="py-16 px-6 max-w-5xl mx-auto border-t border-white/[0.07]">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-      <div class="p-6 rounded-xl surface-card space-y-2">
-        <div class="flex items-center justify-between">
-          <span class="text-[11px] mono text-[#86868B]">01 · ZERO-CLICK HOT CORNER (↗)</span>
-          <span class="text-[11px] mono text-[#86868B]">85ms Quartz Dwell</span>
-        </div>
-        <h3 class="text-base font-semibold text-[#ECECEC]">マウスを画面右上へ動かすだけで0.08秒で起動</h3>
-        <p class="text-xs text-[#86868B] leading-relaxed">
-          CoreGraphics の <code class="text-[#ECECEC]">CGEventTap</code> で画面端 10px のカーソル滞在を検知。キーボードから手を離さず、マウスを右上へ振るだけで最新のスクリーンショット一覧がメニューバー直下に現れます（<code class="text-[#ECECEC]">⌘⇧S</code> ショートカット併用可）。
-        </p>
-      </div>
-
-      <div class="p-6 rounded-xl surface-card space-y-2">
-        <div class="flex items-center justify-between">
-          <span class="text-[11px] mono text-[#86868B]">02 · APPLE VISION OCR INDEXING</span>
-          <span class="text-[11px] mono text-[#86868B]">ja-JP & en-US</span>
-        </div>
-        <h3 class="text-base font-semibold text-[#ECECEC]">「あのエラー画面どこだっけ？」を画像内テキストで即座に検索</h3>
-        <p class="text-xs text-[#86868B] leading-relaxed">
-          macOS の保存先フォルダ（<code class="text-[#ECECEC]">com.apple.screencapture location</code> / <code class="text-[#ECECEC]">~/Pictures/Screenshots</code> / <code class="text-[#ECECEC]">~/Desktop</code>）を自動監視し、Apple Vision Neural Engine で画像内の日英テキストを自動インデックス化。<code class="text-[#ECECEC]">⌥↵</code> で文字だけを貼り付けることも可能です。
-        </p>
-      </div>
-
-      <div class="p-6 rounded-xl surface-card space-y-2">
-        <div class="flex items-center justify-between">
-          <span class="text-[11px] mono text-[#86868B]">03 · 1-SECOND SUMI REDACTION</span>
-          <span class="text-[11px] mono text-[#86868B]">#1D1D1F Matte Blackout</span>
-        </div>
-        <h3 class="text-base font-semibold text-[#ECECEC]">APIキーや個人情報をドラッグ1秒で墨消ししてそのままペースト</h3>
-        <p class="text-xs text-[#86868B] leading-relaxed">
-          重い画像編集ソフトを開く必要はありません。右ペインのプレビュー上をマウスでなぞるだけで美しい墨色（<code class="text-[#ECECEC]">#1D1D1F</code>）のマスクが焼き込まれ、<code class="text-[#ECECEC]">↵</code> キーひとつでSlack・GitHub・Xへ安全に貼り付けられます。
-        </p>
-      </div>
-
-      <div class="p-6 rounded-xl surface-card space-y-2">
-        <div class="flex items-center justify-between">
-          <span class="text-[11px] mono text-[#86868B]">04 · 100% LOCAL · ZERO SUBSCRIPTION</span>
-          <span class="text-[11px] mono text-[#86868B]">Native Rust + Swift</span>
-        </div>
-        <h3 class="text-base font-semibold text-[#ECECEC]">外部通信ゼロの完全ローカル設計・$14 買い切り</h3>
-        <p class="text-xs text-[#86868B] leading-relaxed">
-          スクリーンショットには機密情報が含まれるからこそ、クラウドアップロードを一切行わない 100% オンデバイス設計を徹底。CleanShot X（年額 $29〜）のような継続課金なしで永続利用できます。
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Market Comparison Table -->
-  <section id="comparison" class="py-16 px-6 max-w-5xl mx-auto border-t border-white/[0.07]">
-    <h2 class="text-xl sm:text-2xl font-bold text-[#ECECEC] tracking-tight text-center mb-8">
-      macOS スクリーンショット管理・OCRツールとの比較
-    </h2>
-    <div class="overflow-x-auto rounded-xl surface-card">
-      <table class="w-full text-left border-collapse text-xs">
-        <thead>
-          <tr class="border-b border-white/[0.08] text-[#86868B] mono">
-            <th class="py-3.5 px-4">機能 / 指標</th>
-            <th class="py-3.5 px-4 text-[#ECECEC] font-semibold bg-white/[0.04]">CornerShot Pro</th>
-            <th class="py-3.5 px-4">CleanShot X</th>
-            <th class="py-3.5 px-4">macOS 標準スクショ</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-white/[0.06] text-[#ECECEC]">
-          <tr>
-            <td class="py-3 px-4 font-medium">価格モデル</td>
-            <td class="py-3 px-4 font-semibold bg-white/[0.04] mono">$14 買い切り</td>
-            <td class="py-3 px-4 text-[#86868B] mono">$29 (更新年額 $19) / 月 $10</td>
-            <td class="py-3 px-4 text-[#86868B] mono">無料 (OS標準)</td>
-          </tr>
-          <tr>
-            <td class="py-3 px-4 font-medium">右上ホットコーナー（↗）での即座の履歴呼び出し</td>
-            <td class="py-3 px-4 font-semibold bg-white/[0.04]">✓ カーソル移動 85ms で即展開</td>
-            <td class="py-3 px-4 text-[#86868B]">✕ 撮影直後のピン表示のみ</td>
-            <td class="py-3 px-4 text-[#86868B]">✕ 5秒で消えるサムネイルのみ</td>
-          </tr>
-          <tr>
-            <td class="py-3 px-4 font-medium">過去のスクショ内の文字検索 (Vision OCR)</td>
-            <td class="py-3 px-4 font-semibold bg-white/[0.04]">✓ 全自動インデックス＆ ⌥↵ 貼付</td>
-            <td class="py-3 px-4 text-[#86868B]">△ 単発OCRキャプチャのみ</td>
-            <td class="py-3 px-4 text-[#86868B]">✕ プレビューで開く必要あり</td>
-          </tr>
-          <tr>
-            <td class="py-3 px-4 font-medium">1秒ドラッグ墨消し（Sumi Redaction）</td>
-            <td class="py-3 px-4 font-semibold bg-white/[0.04]">✓ ドロワー内で即座にマスク＆貼付</td>
-            <td class="py-3 px-4 text-[#86868B]">✓ 別ウィンドウのエディタを起動</td>
-            <td class="py-3 px-4 text-[#86868B]">△ マークアップ画面で図形配置</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- Single Focused Pricing Box -->
-  <section id="pricing" class="py-16 px-6 max-w-2xl mx-auto border-t border-white/[0.07]">
-    <div class="p-8 rounded-2xl surface-card border border-white/25 space-y-6">
-      <div class="flex items-baseline justify-between border-b border-white/[0.08] pb-5">
-        <div>
-          <span class="text-[11px] mono uppercase tracking-wider text-[#86868B]">ONE-TIME LICENSE · NO SUBSCRIPTION</span>
-          <h3 class="text-2xl font-bold text-[#ECECEC] mt-1">CornerShot Pro for macOS</h3>
-        </div>
-        <div class="text-right">
-          <span class="text-3xl font-bold text-[#ECECEC] mono">$14</span>
-          <span class="block text-[10px] text-[#86868B] mono">Lifetime Unlock</span>
+        <!-- Bottom bar -->
+        <div class="h-8 px-4 border-t border-white/[0.08] bg-[#141416] flex items-center justify-between text-[11px] text-[#86868B] mono">
+          <span>Drag image to redact</span>
+          <div class="flex items-center gap-4">
+            <span>Paste Text <strong class="text-[#ECECEC] font-normal">⌥↵</strong></span>
+            <span>Paste Image <strong class="text-[#ECECEC] font-normal">↵</strong></span>
+          </div>
         </div>
       </div>
+    </section>
 
-      <ul class="space-y-2.5 text-xs text-[#ECECEC]">
-        <li>✓ <b>右上ホットコーナー（↗）＆ ⌘⇧S 即時ドロワー起動</b></li>
-        <li>✓ <b>無制限のスクリーンショット履歴＆ Apple Vision 自動 OCR 検索</b>（無料体験版は直近12件）</li>
-        <li>✓ <b>1秒ドラッグ墨消し（Sumi Redaction）＆ ⌥↵ OCRテキスト貼り付け</b></li>
-        <li>✓ <b>macOS スクショ保存先フォルダの自動検出</b>（デスクトップ・専用フォルダ両対応）</li>
-        <li>✓ <b>100% オフライン動作</b>（外部サーバー通信ゼロ・Apple Silicon ネイティブ DMG）</li>
-      </ul>
+    <!-- Specification List -->
+    <section class="border-t border-white/[0.08] divide-y divide-white/[0.08] text-xs">
+      <div class="py-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <span class="text-[#86868B]">起動方法</span>
+        <span class="sm:col-span-2 text-[#ECECEC]">画面右上（または左上）へのマウス移動、または <code class="mono">⌘⇧S</code>。</span>
+      </div>
+      <div class="py-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <span class="text-[#86868B]">対象フォルダ</span>
+        <span class="sm:col-span-2 text-[#ECECEC]">macOS のスクリーンショット保存先設定（<code class="mono">com.apple.screencapture location</code>）、<code class="mono">~/Pictures/Screenshots</code>、<code class="mono">~/Desktop</code> を自動で読み込みます。</span>
+      </div>
+      <div class="py-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <span class="text-[#86868B]">文字検索と黒塗り</span>
+        <span class="sm:col-span-2 text-[#ECECEC]">Apple Vision による画像内テキスト検索と、プレビュー上でのドラッグ黒塗りに対応しています。</span>
+      </div>
+      <div class="py-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <span class="text-[#86868B]">ライセンス</span>
+        <span class="sm:col-span-2 text-[#ECECEC]">無料版は直近 12 件まで表示。Pro ライセンス（$14 買い切り）で制限が解除されます。</span>
+      </div>
+    </section>
 
-      <a id="pricing-buy-link" href="https://buy.polar.sh/polar_cl_cnKZ7opusRVzLV1ybbHxwRiDP5OHHD4hbjAlc1y6WCw" target="_blank" rel="noopener noreferrer" class="block w-full py-3.5 rounded-lg bg-[#ECECEC] hover:bg-white text-[#141416] text-center text-xs font-bold transition-all">
-        Polar.sh で CornerShot Pro を購入する ($14) →
-      </a>
-      <p class="text-[10px] text-center text-[#86868B] mono">
-        Merchant of Record: Polar.sh · Support: manreilab@proton.me
-      </p>
-    </div>
-  </section>
+  </main>
 
-  <footer class="py-8 px-6 border-t border-white/[0.06] text-center text-[11px] text-[#86868B]">
-    © 2026 manRei Lab. Engineered natively with Rust, Swift Vision, and Tauri v2 for macOS.
+  <footer class="max-w-3xl mx-auto px-6 py-8 border-t border-white/[0.08] flex items-center justify-between text-[11px] text-[#86868B]">
+    <span>manRei Lab</span>
+    <a href="mailto:manreilab@proton.me" class="hover:text-[#ECECEC] mono">manreilab@proton.me</a>
   </footer>
 
   <script>
-    const shotData = [
+    const shots = [
       {
-        meta: 'SUMI REDACT STAGE · DRAG TO BLACKOUT',
-        text: 'STRIPE_LIVE_SECRET=████████████████████\nPOLAR_ORG_ID=83da2985-1e90-48d1-8999\nWEBHOOK_URL=https://api.manreilab.com/v1/hooks\nSTATUS: 200 OK · Verified on macOS Sequoia 15.2'
+        dim: '2880×1800',
+        body: 'STRIPE_SECRET=██████████████████\nPOLAR_ORG_ID=83da2985-1e90-48d1-8999\nWEBHOOK_URL=https://api.manreilab.com/v1/hooks\nHTTP 200 OK'
       },
       {
-        meta: 'APPLE VISION OCR · TERMINAL BUILD LOG',
-        text: '$ cargo build --release --target aarch64-apple-darwin\nCompiling cornershot v1.0.0 (/Users/manrei/cornershot)\nLinking Apple Vision.framework + CoreGraphics\nFinished release [optimized] target(s) in 4.18s'
+        dim: '2560×1600',
+        body: '$ cargo build --release\nCompiling cornershot v1.0.0\nFinished release target in 4.18s'
       },
       {
-        meta: 'APPLE VISION OCR · DESIGN TOKENS',
-        text: 'Surface: #141416 · Inspector: #101012\nPrimary Ink: #ECECEC · Secondary Stone: #86868B\nHairline Border: 1px solid rgba(255,255,255,0.08)\nTypography: SF Pro Text + SF Mono (tabular-nums)'
-      },
-      {
-        meta: 'APPLE VISION OCR · RECEIPT',
-        text: 'Merchant of Record: Polar Software, Inc.\nProduct: CornerShot Pro for macOS (One-Time)\nAmount Paid: $14.00 USD · Tax Included\nLicense Key: CSHOT-8842-991A-440C'
+        dim: '1920×1200',
+        body: 'Background: #141416\nPrimary: #ECECEC\nSecondary: #86868B'
       }
     ];
 
     function selectShot(idx) {
-      for (let i = 0; i < 4; i++) {
-        const el = document.getElementById('shot-card-' + i);
+      for (let i = 0; i < 3; i++) {
+        const el = document.getElementById('shot-' + i);
         el.className = i === idx
-          ? 'p-1.5 rounded-lg bg-white/[0.12] border border-white/[0.28] cursor-pointer space-y-1'
-          : 'p-1.5 rounded-lg bg-[#101012] border border-white/[0.07] cursor-pointer space-y-1';
+          ? 'flex items-center gap-2.5 p-1.5 rounded-lg bg-white/[0.11] text-[#ECECEC] cursor-pointer'
+          : 'flex items-center gap-2.5 p-1.5 rounded-lg text-[#86868B] hover:text-[#ECECEC] cursor-pointer';
       }
-      document.getElementById('shot-meta').innerText = shotData[idx].meta;
-      document.getElementById('shot-inspector').innerText = shotData[idx].text;
+      document.getElementById('shot-dim').innerText = shots[idx].dim;
+      document.getElementById('shot-body').innerText = shots[idx].body;
     }
   </script>
 </body>
